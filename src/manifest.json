@@ -1,0 +1,15 @@
+{
+	"manifest_version": 1,
+	"id": "joplin.plugin.sourceurl-opener",
+	"app_min_version": "2.13",
+	"version": "1.0.0",
+	"name": "Source URL Opener",
+	"description": "Open source URL of the current note with a shortcut",
+	"author": "Jeremy Kao",
+	"homepage_url": "https://github.com/imsardine/joplin-plugin-sourceurl-opender",
+	"repository_url": "https://github.com/imsardine/joplin-plugin-sourceurl-opender",
+	"keywords": ["joplin-plugin"],
+	"categories": [],
+	"screenshots": [],
+	"icons": {}
+}
