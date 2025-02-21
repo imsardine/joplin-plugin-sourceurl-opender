@@ -23,10 +23,34 @@ joplin.plugins.register({
       },
     });
 
+    await joplin.commands.register({
+      name: 'copySourceUrl',
+      label: 'Copy Source URL',
+      iconName: 'fas fa-copy',
+      execute: async () => {
+        const note = await joplin.workspace.selectedNote();
+        if (note) {
+          const url = note.source_url;
+          if (url) {
+            await joplin.clipboard.writeText(url);
+            console.log('Source URL copied to clipboard!');
+          }
+        } else {
+          await joplin.views.dialogs.showMessageBox('Please select one and only one note.');
+        }
+      },
+    });
+
     await joplin.views.menuItems.create(
       'Open source URL',
       'openSourceUrl',
       MenuItemLocation.Tools,
       { accelerator: 'Shift+Cmd+U' });
+
+    await joplin.views.menuItems.create(
+      'Copy Source URL',
+      'copySourceUrl',
+      MenuItemLocation.Tools,
+      { accelerator: 'Shift+Cmd+C' });
   },
 });
