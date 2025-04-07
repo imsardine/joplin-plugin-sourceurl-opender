@@ -11,10 +11,25 @@ joplin.plugins.register({
       label: 'Open Source URL',
       iconName: 'fas fa-external-link-alt',
       execute: async () => {
-        joplin.workspace.selectedNote().then((note) => {
+        joplin.workspace.selectedNote().then(async (note) => {
           if (note) {
             let url = note.source_url;
-            console.log(`Source URL: ${url}`);
+            
+            // If no source URL exists, check if first line is a URL
+            if (!url) {
+              const noteContent = await joplin.data.get(['notes', note.id], { fields: ['body'] });
+              const firstLine = noteContent.body.split('\n')[0].trim();
+              
+              // Simple URL regex pattern
+              const urlPattern = /^(https?:\/\/[^\s]+)$/;
+              if (urlPattern.test(firstLine)) {
+                url = firstLine;
+                console.log(`Using first line as URL: ${url}`);
+              }
+            } else {
+              console.log(`Source URL: ${url}`);
+            }
+            
             if (url) joplin.commands.execute('openItem', url);
           } else {
             joplin.views.dialogs.showMessageBox("Please select one and only one note.");
@@ -30,10 +45,26 @@ joplin.plugins.register({
       execute: async () => {
         const note = await joplin.workspace.selectedNote();
         if (note) {
-          const url = note.source_url;
+          let url = note.source_url;
+          
+          // If no source URL exists, check if first line is a URL
+          if (!url) {
+            const noteContent = await joplin.data.get(['notes', note.id], { fields: ['body'] });
+            const firstLine = noteContent.body.split('\n')[0].trim();
+            
+            // Simple URL regex pattern
+            const urlPattern = /^(https?:\/\/[^\s]+)$/;
+            if (urlPattern.test(firstLine)) {
+              url = firstLine;
+              console.log(`Using first line as URL for copying: ${url}`);
+            }
+          }
+          
           if (url) {
             await joplin.clipboard.writeText(url);
-            console.log('Source URL copied to clipboard!');
+            console.log('URL copied to clipboard!');
+          } else {
+            await joplin.views.dialogs.showMessageBox('No URL found for this note.');
           }
         } else {
           await joplin.views.dialogs.showMessageBox('Please select one and only one note.');

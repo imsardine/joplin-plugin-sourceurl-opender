@@ -12,10 +12,16 @@ A Joplin plugin that provides quick access to note source URLs without having to
    - Copy the source URL of the current note to clipboard
    - Access via Tools menu or keyboard shortcut
 
+3. **Mobile App Compatibility**
+   - Supports content shared to Joplin mobile app where source URL isn't set properly
+   - Falls back to using the first line URL when no source URL property exists
+
 ## Usage
 
-1. Select a note that has a source URL
-2. Either:
+1. Select a note that either:
+   - Has a source URL property set
+   - Contains a URL in the first line (useful for notes created in Joplin mobile app)
+2. Then:
    - Press `Shift+Cmd+U` to open the URL in your browser
    - Press `Shift+Cmd+C` to copy the URL to your clipboard
    - Or use the corresponding commands from the Tools menu
