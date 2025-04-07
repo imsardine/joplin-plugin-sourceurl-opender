@@ -25,6 +25,17 @@ joplin.plugins.register({
               if (urlPattern.test(firstLine)) {
                 url = firstLine;
                 console.log(`Using first line as URL: ${url}`);
+                
+                // Update the note's source_url
+                try {
+                  await joplin.data.put(['notes', note.id], null, { 
+                    id: note.id,
+                    source_url: url
+                  });
+                  console.log('Note source_url updated successfully');
+                } catch (error) {
+                  console.error('Error updating note source_url:', error);
+                }
               }
             } else {
               console.log(`Source URL: ${url}`);
@@ -57,6 +68,17 @@ joplin.plugins.register({
             if (urlPattern.test(firstLine)) {
               url = firstLine;
               console.log(`Using first line as URL for copying: ${url}`);
+              
+              // Update the note's source_url
+              try {
+                await joplin.data.put(['notes', note.id], null, { 
+                  id: note.id,
+                  source_url: url
+                });
+                console.log('Note source_url updated successfully');
+              } catch (error) {
+                console.error('Error updating note source_url:', error);
+              }
             }
           }
           
